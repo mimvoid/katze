@@ -4,9 +4,7 @@
 #include "ctx/Dctx.hpp"
 
 namespace katze {
-Label::~Label() {
-  if (textPtr) TTF_DestroyText(textPtr);
-}
+Label::~Label() { TTF_DestroyText(textPtr); }
 
 void Label::resize(Gctx g, FRect &rect) { resizeForFont(g.font, g, rect); }
 void Label::view(Dctx &d, FRect rect) { viewForFont(d.root.font, d, rect); }
