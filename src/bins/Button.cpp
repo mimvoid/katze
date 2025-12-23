@@ -6,7 +6,7 @@
 namespace katze {
 void Clickable::view(Dctx &d, FRect rect) {
   if (updateState(d, rect)) {
-    d.root.messages.push_back(onClick);
+    d.root.messages.emplace_back(onClick);
   }
   if (child) {
     child->view(d, childRect);

@@ -13,14 +13,15 @@ struct Padding : Capsule {
     : Capsule(child), pad(padding) {}
 
   template <class T, typename = ifIsWidget<T>>
-  Padding(float padding, T &&child) : Capsule(std::move(child)), pad(padding) {}
+  Padding(float padding, T &&child)
+    : Capsule(std::forward<T>(child)), pad(padding) {}
 
   template <class T, typename = ifIsWidget<T>>
   Padding(FEdges pad, std::shared_ptr<T> child = {})
     : Capsule(child), pad(pad) {}
 
   template <class T, typename = ifIsWidget<T>>
-  Padding(FEdges pad, T &&child) : Capsule(std::move(child)), pad(pad) {}
+  Padding(FEdges pad, T &&child) : Capsule(std::forward<T>(child)), pad(pad) {}
 
   void resize(Gctx g, FRect &rect) override;
   void repositionChildren(FRect rect) override;

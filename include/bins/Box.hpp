@@ -40,14 +40,14 @@ struct Box : Bin {
 
   template <class T, typename = ifIsWidget<T>>
   void push(std::shared_ptr<T> child, bool expanded = false) {
-    m_children.push_back(child);
+    m_children.emplace_back(child);
     m_childRects.emplace_back();
-    m_expanded.push_back(expanded);
+    m_expanded.emplace_back(expanded);
   }
 
   template <class T, typename = ifIsWidget<T>>
   void push(T &&child, bool expanded = false) {
-    push(std::make_shared<T>(std::move(child)), expanded);
+    push(std::make_shared<T>(std::forward<T>(child)), expanded);
   }
 
   void resize(Gctx g, FRect &rect) override;

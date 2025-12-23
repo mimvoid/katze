@@ -59,7 +59,7 @@ void Slider::view(Dctx &d, FRect rect) {
       setValue(toScaledValue(d.mouse.y, trough.y, trough.y + trough.h));
 
     if (pressReleased) {
-      d.root.messages.push_back(onValueUpdate);
+      d.root.messages.emplace_back(onValueUpdate);
     }
   }
 

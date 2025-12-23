@@ -1,6 +1,7 @@
 #ifndef KATZE_BINS_CAPSULE_HPP
 #define KATZE_BINS_CAPSULE_HPP
 
+#include <utility>
 #include "Bin.hpp"
 
 namespace katze {
@@ -17,7 +18,7 @@ struct Capsule : Bin {
   Capsule(std::shared_ptr<T> child) : child(child) {}
 
   template <class T, typename = ifIsWidget<T>>
-  Capsule(T &&child) : child(std::make_shared<T>(child)) {}
+  Capsule(T &&child) : child(std::make_shared<T>(std::forward<T>(child))) {}
 
   void resize(Gctx g, FRect &rect) override;
   void repositionChildren(FRect rect) override;

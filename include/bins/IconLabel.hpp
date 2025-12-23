@@ -18,7 +18,9 @@ struct IconLabel : Bin {
   IconLabel() = default;
 
   IconLabel(Icon &&icon, Label &&label, int spacing = 0)
-    : label(std::move(label)), icon(std::move(icon)), spacing(spacing) {}
+    : label(std::forward<Label>(label)),
+      icon(std::forward<Icon>(icon)),
+      spacing(spacing) {}
 
   IconLabel(const IconBits &bits, const char *text = "", int spacing = 0)
     : label(text), icon(bits), spacing(spacing) {}

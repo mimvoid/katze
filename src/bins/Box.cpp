@@ -24,8 +24,7 @@ void Box::resize(Gctx g, FRect &rect) {
   }
 
   // Measure children sizes
-  Gctx gCopy = g;
-  const FVec2 cSize = resizeChildren(gCopy);
+  const FVec2 cSize = resizeChildren(g);
 
   // Update box size
   rect.w = g.clampWidth(cSize.x);
@@ -72,7 +71,7 @@ FVec2 Box::resizeChildren(Gctx g) {
     FRect &wRect = m_childRects[i];
 
     if (m_expanded[i]) {
-      expandedIdx.push_back(i);
+      expandedIdx.emplace_back(i);
       continue;
     }
 

@@ -18,11 +18,11 @@ struct Clickable : Capsule, Reactive {
     : Capsule(child), Reactive(true), onClick(onClick) {}
 
   template <class T, typename = ifIsWidget<T>>
-  Clickable(T &&child) : Capsule(std::move(child)) {}
+  Clickable(T &&child) : Capsule(std::forward<T>(child)) {}
 
   template <class T, typename = ifIsWidget<T>>
   Clickable(T &&child, uint32_t onClick)
-    : Capsule(std::move(child)), Reactive(true), onClick(onClick) {}
+    : Capsule(std::forward<T>(child)), Reactive(true), onClick(onClick) {}
 
   void view(Dctx &d, FRect rect) override;
 };
@@ -40,10 +40,11 @@ struct Button : Clickable {
     : Clickable(child, onClick) {}
 
   template <class T, typename = ifIsWidget<T>>
-  Button(T &&child) : Clickable(std::move(child)) {}
+  Button(T &&child) : Clickable(std::forward<T>(child)) {}
 
   template <class T, typename = ifIsWidget<T>>
-  Button(T &&child, uint32_t onClick) : Clickable(std::move(child), onClick) {}
+  Button(T &&child, uint32_t onClick)
+    : Clickable(std::forward<T>(child), onClick) {}
 
   void resize(Gctx g, FRect &rect) override;
   void repositionChildren(FRect rect) override;
