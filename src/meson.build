@@ -1,5 +1,6 @@
 katze_sources = files(
   'app.cpp',
+  'draw.cpp',
   'Font.cpp',
   'icons.cpp',
   'Reactive.cpp',

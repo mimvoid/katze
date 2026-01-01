@@ -2,6 +2,7 @@ install_headers(
   'app.hpp',
   'bins.hpp',
   'core.hpp',
+  'draw.hpp',
   'Font.hpp',
   'icons.hpp',
   'Reactive.hpp',
