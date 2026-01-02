@@ -1,6 +1,7 @@
 #ifndef KATZE_CTX_DCTX_HPP
 #define KATZE_CTX_DCTX_HPP
 
+#include <vector>
 #include "../Root.hpp"
 #include "../core/State.hpp"
 #include "../input/Cursor.hpp"
@@ -23,6 +24,7 @@ struct Dctx {
 
   Root &root;
   MouseInfo mouse{};
+  std::vector<uint32_t> messages{};
 
   State state{State::NORMAL};
   Cursor cursor{Cursor::DEFAULT};

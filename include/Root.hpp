@@ -26,9 +26,6 @@ struct Root {
   // Currently focused reactive widget, such as being hovered over or pressed.
   Reactive *focused{};
 
-  // Callback messages added by reactive widgets.
-  std::vector<uint32_t> messages{};
-
   Root(Renderer &renderer, Theme theme = {})
     : renderer(renderer), theme(theme) {}
 
@@ -45,7 +42,7 @@ struct Root {
   /**
    * Draw the widgets and collect messages.
    */
-  void view();
+  std::vector<uint32_t> view();
 };
 } // namespace katze
 

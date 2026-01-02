@@ -13,7 +13,7 @@ void Checkbox::resize(Gctx g, FRect &rect) {
 void Checkbox::view(Dctx &d, FRect rect) {
   if (updateState(d, rect)) {
     checked = !checked;
-    d.root.messages.emplace_back(onCheck);
+    d.messages.emplace_back(onCheck);
   }
 
   const StateColors &colors = d.colors();

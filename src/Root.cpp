@@ -24,8 +24,8 @@ void Root::layout(float width, float height) {
   child->reposition(Vec2{offsetX, offsetY}, childRect);
 }
 
-void Root::view() {
-  if (!child) return;
+std::vector<uint32_t> Root::view() {
+  if (!child) return {};
 
   Dctx d{*this};
 
@@ -37,5 +37,7 @@ void Root::view() {
 
   child->view(d, childRect);
   setCursor(d.cursor);
+
+  return d.messages;
 }
 } // namespace katze

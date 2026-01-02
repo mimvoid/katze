@@ -65,6 +65,8 @@ int main(void) {
     }
   );
 
+  std::vector<uint32_t> messages{};
+
   while (!katze::shouldQuit()) {
     for (ResizeData &resizeData : katze::resizedWindows()) {
       if (resizeData.windowId == winId) {
@@ -73,10 +75,10 @@ int main(void) {
     }
 
     win.renderer.clear();
-    root.view();
+    messages = root.view();
     win.renderer.present();
 
-    for (uint32_t msg : root.messages) {
+    for (uint32_t msg : messages) {
       switch (msg) {
       case CHECK:
         if (checkbox->checked) {
@@ -96,7 +98,6 @@ int main(void) {
       default: break;
       }
     }
-    root.messages.clear();
 
     SDL_Delay(1000 / 60);
   }

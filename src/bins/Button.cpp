@@ -6,7 +6,7 @@
 namespace katze {
 void Clickable::view(Dctx &d, FRect rect) {
   if (updateState(d, rect)) {
-    d.root.messages.emplace_back(onClick);
+    d.messages.emplace_back(onClick);
   }
   if (child) {
     child->view(d, childRect);
@@ -35,7 +35,7 @@ void Button::repositionChildren(FRect rect) {
 
 void Button::view(Dctx &d, FRect rect) {
   if (updateState(d, rect)) {
-    d.root.messages.push_back(onClick);
+    d.messages.emplace_back(onClick);
   }
 
   SDL_FRect drawRect{rect.x, rect.y, rect.w, rect.h};
