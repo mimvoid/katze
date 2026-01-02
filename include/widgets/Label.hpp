@@ -1,53 +1,32 @@
-#pragma once
+#ifndef KATZE_WIDGETS_LABEL_HPP
+#define KATZE_WIDGETS_LABEL_HPP
+
 #include "Widget.hpp"
-#include "WidgetBuilder.hpp"
 
-namespace katzen {
-/**
- * A widget that displays text.
- */
+struct TTF_Text;
+
+namespace katze {
 struct Label : Widget {
-  struct Builder;
+  const char *text{""};
+  bool wrapWords{true};
 
-  const char *text;
-  bool wrapWords;
+  Label(const char *text = "", bool willWrap = true)
+    : text(text), wrapWords(willWrap) {}
 
-  Label(const char *text = "", bool wrapWords = true)
-    : text(text), wrapWords(wrapWords) {}
+  ~Label();
 
   constexpr bool empty() const { return !text || text[0] == '\0'; }
 
-  void resize(Gctx g) override;
-  void draw(Dctx &d) override;
+  void resize(Gctx g, FRect &rect) override;
+  void view(Dctx &d, FRect rect) override;
 
 protected:
-  constexpr bool willWrap(float textWidth, float maxWidth) const {
-    return wrapWords && (textWidth + padding.getX() > maxWidth);
-  }
+  TTF_Text *textPtr{nullptr};
 
-  void drawStyled(FontStyle &style, Color textColor);
-
-public:
-  struct Builder : WidgetBuilder<Builder> {
-    constexpr Builder &wrapWords(bool value) {
-      m_wrapWords = value;
-      return *this;
-    }
-
-    constexpr Builder &text(const char *value) {
-      m_text = value;
-      return *this;
-    }
-
-    Label build() const {
-      Label label(m_text, m_wrapWords);
-      setWidgetProps(label);
-      return label;
-    }
-
-  private:
-    const char *m_text{""};
-    bool m_wrapWords{true};
-  };
+  void resizeForFont(Font font, const Gctx &g, FRect &rect);
+  void viewForFont(Font font, Dctx &d, FRect rect);
+  void viewNoTextPtr(Font font, Dctx &d, FRect rect);
 };
-} // namespace katzen
+} // namespace katze
+
+#endif // !KATZE_WIDGETS_LABEL_HPP

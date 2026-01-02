@@ -1,5 +1,5 @@
 {
-  description = "Flake for katzen";
+  description = "Flake for katze";
 
   inputs.nixpkgs.url = "github:NixOS/nixpkgs/nixpkgs-unstable";
 
@@ -12,7 +12,7 @@
     {
       packages = toSystems (pkgs: {
         default = pkgs.stdenv.mkDerivation rec {
-          pname = "katzen";
+          pname = "katze";
           version = "0.1.0";
 
           src = builtins.path {
@@ -21,32 +21,34 @@
           };
 
           nativeBuildInputs = [
-            pkgs.cmakeMinimal
+            pkgs.pkg-config
+            pkgs.meson
             pkgs.ninja
           ];
 
-          buildInputs = [ pkgs.raylib ];
+          buildInputs = [
+            pkgs.sdl3
+            pkgs.sdl3-ttf
+          ];
         };
       });
 
       devShells = toSystems (pkgs: {
         default = pkgs.mkShellNoCC {
-          name = "katzen";
+          name = "katze";
 
-          nativeBuildInputs = [ pkgs.clang ];
+          nativeBuildInputs = [
+            pkgs.pkg-config
+            pkgs.clang
+          ];
 
           packages = with pkgs; [
-            # C++
-            libcxx
-            libcxxrt
-
-            # Development tools
             clang-tools
-            cmakeMinimal
             ninja
+            meson
 
-            # Libraries
-            (pkgs.raylib.override { platform = "SDL"; })
+            sdl3
+            sdl3-ttf
             doctest
           ];
         };

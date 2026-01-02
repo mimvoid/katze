@@ -1,0 +1,29 @@
+#ifndef KATZE_BINS_CAPSULE_HPP
+#define KATZE_BINS_CAPSULE_HPP
+
+#include <utility>
+#include "Bin.hpp"
+
+namespace katze {
+/**
+ * Bin that contains a single child widget.
+ */
+struct Capsule : Bin {
+  std::shared_ptr<Widget> child{};
+  FRect childRect{};
+
+  Capsule() = default;
+
+  template <class T, typename = ifIsWidget<T>>
+  Capsule(std::shared_ptr<T> child) : child(child) {}
+
+  template <class T, typename = ifIsWidget<T>>
+  Capsule(T &&child) : child(std::make_shared<T>(std::forward<T>(child))) {}
+
+  void resize(Gctx g, FRect &rect) override;
+  void repositionChildren(FRect rect) override;
+  void view(Dctx &d, FRect rect) override;
+};
+} // namespace katze
+
+#endif // !KATZE_BINS_CAPSULE_HPP

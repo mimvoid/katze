@@ -1,57 +1,21 @@
-#pragma once
-#include <functional>
-#include "../parts/Reactive.hpp"
+#ifndef KATZE_WIDGETS_CHECKBOX_HPP
+#define KATZE_WIDGETS_CHECKBOX_HPP
+
+#include "../Reactive.hpp"
 #include "Widget.hpp"
-#include "WidgetBuilder.hpp"
 
-namespace katzen {
+namespace katze {
 struct Checkbox : Widget, Reactive {
-  using OnCheck = std::function<void(Checkbox &self)>;
-  struct Builder;
+  bool checked{false};
+  uint32_t onCheck{0};
 
-  bool checked;
-  OnCheck onCheck;
+  Checkbox(bool checked = false) : checked(checked) {}
+  Checkbox(bool checked, uint32_t onCheck)
+    : Reactive(true), checked(checked), onCheck(onCheck) {}
 
-  Checkbox(bool checked = false, OnCheck callback = {})
-    : checked(checked), onCheck(callback) {}
-
-  constexpr float scale() const { return m_scale; }
-  constexpr void setScale(float scale) { m_scale = std::max(0.1f, scale); }
-
-  void resize(Gctx g) override;
-  void draw(Dctx &d) override;
-
-private:
-  float m_scale{1.0f};
-
-public:
-  struct Builder : WidgetBuilder<Builder> {
-    constexpr Builder &checked(bool value) {
-      m_checked = value;
-      return *this;
-    }
-
-    constexpr Builder &scale(float value) {
-      m_scale = value;
-      return *this;
-    }
-
-    Builder &onCheck(OnCheck callback) {
-      m_onCheck = callback;
-      return *this;
-    }
-
-    Checkbox build() const {
-      Checkbox checkbox(m_checked, m_onCheck);
-      checkbox.setScale(m_scale);
-      setWidgetProps(checkbox);
-      return checkbox;
-    }
-
-  private:
-    bool m_checked{false};
-    float m_scale{1.0f};
-    OnCheck m_onCheck{};
-  };
+  void resize(Gctx g, FRect &rect) override;
+  void view(Dctx &d, FRect rect) override;
 };
-} // namespace katzen
+} // namespace katze
+
+#endif // !KATZE_WIDGETS_CHECKBOX_HPP

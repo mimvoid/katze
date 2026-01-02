@@ -1,49 +1,19 @@
-#pragma once
-#include "../theme/FontStyle.hpp"
+#ifndef KATZE_WIDGETS_LABELEX_HPP
+#define KATZE_WIDGETS_LABELEX_HPP
+
+#include "../Font.hpp"
 #include "Label.hpp"
-#include "WidgetBuilder.hpp"
 
-namespace katzen {
-/**
- * A widget that displays custom styled text.
- */
+namespace katze {
 struct LabelEx : Label {
-  struct Builder;
-  FontStyle style{};
+  Font font{};
 
-  LabelEx(const char *content = "", FontStyle style = {}, bool wrapWords = true)
-    : Label(content, wrapWords), style(style) {}
+  LabelEx(Font font = {}, const char *text = "", bool willWrap = true)
+    : Label(text, willWrap), font(font) {}
 
-  void resize(Gctx g) override;
-  void draw(Dctx &d) override;
-
-public:
-  struct Builder : WidgetBuilder<Builder> {
-    constexpr Builder &wrapWords(bool value) {
-      m_wrapWords = value;
-      return *this;
-    }
-
-    constexpr Builder &text(const char *value) {
-      m_text = value;
-      return *this;
-    }
-
-    constexpr Builder &fontStyle(FontStyle value) {
-      style = value;
-      return *this;
-    }
-
-    LabelEx build() const {
-      LabelEx label(m_text, style, m_wrapWords);
-      setWidgetProps(label);
-      return label;
-    }
-
-  private:
-    const char *m_text{""};
-    FontStyle style{};
-    bool m_wrapWords{true};
-  };
+  void resize(Gctx g, FRect &rect) override { resizeForFont(font, g, rect); }
+  void view(Dctx &d, FRect rect) override { viewForFont(font, d, rect); }
 };
-} // namespace katzen
+} // namespace katze
+
+#endif // !KATZE_WIDGETS_LABELEX_HPP

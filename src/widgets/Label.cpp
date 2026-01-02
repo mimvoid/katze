@@ -1,42 +1,82 @@
 #include "widgets/Label.hpp"
-#include <cmath>
-#include "parts/textHelpers.hpp"
+#include <SDL3/SDL_render.h>
+#include <SDL3_ttf/SDL_ttf.h>
+#include "ctx/Dctx.hpp"
 
-namespace katzen {
-void Label::resize(Gctx g) {
-  const Vec2 textSize = g.font.measure(text);
-  m_rect.w = g.clampWidth(padding.getX() + textSize.x);
+namespace katze {
+Label::~Label() { TTF_DestroyText(textPtr); }
 
-  float height = padding.getY() + textSize.y;
+void Label::resize(Gctx g, FRect &rect) { resizeForFont(g.font, g, rect); }
+void Label::view(Dctx &d, FRect rect) { viewForFont(d.root.font, d, rect); }
 
-  if (willWrap(textSize.x, g.w)) {
-    // Estimate the height after text wrapping
-    // It's not perfect, but it's simple
-    const int lines = std::ceil(textSize.x / (g.w - padding.getX()));
-    height += textSize.y * (lines - 1);
+void Label::resizeForFont(Font font, const Gctx &g, FRect &rect) {
+  if (empty()) {
+    rect.w = 0;
+    rect.h = 0;
+    return;
   }
 
-  m_rect.h = g.clampHeight(height);
-}
+  int width = 0;
+  int height = 0;
 
-void Label::draw(Dctx &d) { drawStyled(d.font, (Color)d.colors().text); }
+  if (g.textEngine) {
+    if (!textPtr) {
+      textPtr = TTF_CreateText(g.textEngine, font.data, text, 0);
+    } else {
+      TTF_SetTextFont(textPtr, font.data);
+      TTF_SetTextString(textPtr, text, 0);
+    }
 
-void Label::drawStyled(FontStyle &style, Color textColor) {
-  if (empty()) return;
-
-  const Vector2 p{m_rect.x + padding.left, m_rect.y + padding.top};
-
-  if (wrapWords && style.measure(text).x > m_rect.w - padding.getX()) {
-    drawTextBoxed(
-      style.font,
-      text,
-      {p.x, p.y, m_rect.w - padding.getX(), m_rect.h - padding.getY()},
-      style.size(),
-      style.spacing,
-      textColor
-    );
+    // If wrapWords is false, set wrap_width to 0 to still wrap on \n
+    TTF_SetTextWrapWidth(textPtr, wrapWords ? g.w : 0);
+    TTF_GetTextSize(textPtr, &width, &height);
   } else {
-    DrawTextEx(style.font, text, p, style.size(), style.spacing, textColor);
+    TTF_GetStringSizeWrapped(
+      font.data, text, 0, wrapWords ? g.w : 0, &width, &height
+    );
   }
+
+  rect.w = g.clampWidth(width);
+  rect.h = g.clampHeight(height);
 }
-} // namespace katzen
+
+void Label::viewForFont(Font font, Dctx &d, FRect rect) {
+  if (empty()) {
+    return; // Nothing to draw
+  }
+
+  if (!textPtr) {
+    viewNoTextPtr(font, d, rect);
+    return;
+  }
+
+  Rgb color = d.colors().text;
+  TTF_SetTextColor(textPtr, color.r, color.g, color.b, 255);
+  TTF_DrawRendererText(textPtr, rect.x, rect.y);
+}
+
+void Label::viewNoTextPtr(Font font, Dctx &d, FRect rect) {
+  Rgb color = d.colors().text;
+  SDL_Surface *surface = TTF_RenderText_Blended_Wrapped(
+    font.data,
+    text,
+    0,
+    SDL_Color{color.r, color.g, color.b, 255},
+    wrapWords ? rect.w : 0
+  );
+
+  if (surface) {
+    SDL_Texture *texture =
+      SDL_CreateTextureFromSurface(d.root.renderer.data(), surface);
+
+    if (texture) {
+      SDL_FRect dst{rect.x, rect.y, rect.w, rect.h};
+      SDL_RenderTexture(d.root.renderer.data(), texture, nullptr, &dst);
+    }
+
+    SDL_DestroyTexture(texture);
+  }
+
+  SDL_DestroySurface(surface);
+}
+} // namespace katze

@@ -1,71 +1,36 @@
-#pragma once
-#include <functional>
-#include "../parts/Reactive.hpp"
+#ifndef KATZE_WIDGETS_SLIDER_HPP
+#define KATZE_WIDGETS_SLIDER_HPP
+
+#include "../Reactive.hpp"
 #include "Widget.hpp"
-#include "WidgetBuilder.hpp"
 
-namespace katzen {
+namespace katze {
 struct Slider : Widget, Reactive {
-  using OnValueUpdate = std::function<void(Slider &self, float prevValue)>;
-  struct Builder;
-
   Axis direction{Axis::X};
-  OnValueUpdate onValueUpdate{};
+  uint32_t onValueUpdate{0};
 
-  Slider(OnValueUpdate onValueUpdate = {})
-    : Reactive(true), onValueUpdate(onValueUpdate) {}
+  Slider() : Reactive(false, true) {}
 
-  Slider(float initialValue, OnValueUpdate onValueUpdate = {})
-    : Slider(onValueUpdate) {
+  Slider(float initialValue, uint32_t onValueUpdate)
+    : Reactive(true, true), onValueUpdate(onValueUpdate) {
     setValue(initialValue);
   }
 
   constexpr float value() const { return m_value; }
   constexpr void setValue(float value) {
-    if (value < 0.0f)
+    if (value <= 0.0f)
       m_value = 0.0f;
     else
       m_value = value > 1.0f ? 1.0f : value;
   }
 
-  void resize(Gctx g) override;
-  void draw(Dctx &d) override;
+  void resize(Gctx g, FRect &rect) override;
+  void view(Dctx &d, FRect rect) override;
 
 private:
   float m_value{0.0f};
   float m_sizeScale{1.0f};
-
-public:
-  struct Builder : WidgetBuilder<Builder> {
-    constexpr Builder &enabled(bool value) {
-      m_enabled = value;
-      return *this;
-    }
-
-    constexpr Builder &value(float value) {
-      if (value < 0.0f)
-        m_initValue = 0.0f;
-      else
-        m_initValue = value > 1.0f ? 1.0f : value;
-      return *this;
-    }
-
-    Builder &onValueChange(OnValueUpdate callback) {
-      m_onValueChange = callback;
-      return *this;
-    }
-
-    Slider build() const {
-      Slider slider(m_initValue, m_onValueChange);
-      slider.enabled = m_enabled;
-      setWidgetProps(slider);
-      return slider;
-    }
-
-  private:
-    bool m_enabled{true};
-    float m_initValue{0.0f};
-    OnValueUpdate m_onValueChange{};
-  };
 };
-} // namespace katzen
+} // namespace katze
+
+#endif // !KATZE_WIDGETS_SLIDER_HPP

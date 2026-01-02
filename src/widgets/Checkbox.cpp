@@ -1,33 +1,41 @@
 #include "widgets/Checkbox.hpp"
+#include <SDL3/SDL_log.h>
+#include <SDL3/SDL_render.h>
+#include "ctx/Dctx.hpp"
 
-namespace katzen {
-void Checkbox::resize(Gctx g) {
-  const float checkSize = m_scale * g.font.size();
-  m_rect.w = g.clampWidth(checkSize + padding.getX());
-  m_rect.h = g.clampHeight(checkSize + padding.getY());
+namespace katze {
+void Checkbox::resize(Gctx g, FRect &rect) {
+  const float checkSize = g.font.size();
+  rect.w = g.clampWidth(checkSize);
+  rect.h = g.clampHeight(checkSize);
 }
 
-void Checkbox::draw(Dctx &d) {
-  const Rectangle rec(m_rect);
-
-  if (updateState(d, rec)) {
+void Checkbox::view(Dctx &d, FRect rect) {
+  if (updateState(d, rect)) {
     checked = !checked;
-    if (onCheck) onCheck(*this);
+    d.root.messages.emplace_back(onCheck);
   }
 
   const StateColors &colors = d.colors();
+  const SDL_FRect rec{rect.x, rect.y, rect.w, rect.h};
 
-  DrawRectangleRec(rec, (Color)colors.base);
-  if (d.theme.borderWidth != 0) {
-    DrawRectangleLinesEx(rec, d.theme.borderWidth, (Color)colors.border);
-  }
+  d.root.renderer.setDrawColor(colors.base);
+  SDL_RenderFillRect(d.root.renderer.data(), &rec);
 
-  if (checked) {
-    const float gap = d.theme.borderWidth * 2;
-    DrawRectangleRec(
-      {rec.x + gap, rec.y + gap, rec.width - (2 * gap), rec.height - (2 * gap)},
-      (Color)colors.border
-    );
+  const bool drawBorder = d.root.theme.borderWidth != 0;
+  if (drawBorder || checked) {
+    d.root.renderer.setDrawColor(colors.border);
+
+    if (drawBorder) {
+      SDL_RenderRect(d.root.renderer.data(), &rec);
+    }
+    if (checked) {
+      const float gap = d.root.theme.borderWidth * 2;
+      const SDL_FRect checkRect{
+        rect.x + gap, rect.y + gap, rect.w - (2 * gap), rect.h - (2 * gap)
+      };
+      SDL_RenderFillRect(d.root.renderer.data(), &checkRect);
+    }
   }
 }
-} // namespace katzen
+} // namespace katze

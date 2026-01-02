@@ -1,19 +1,22 @@
 #include "widgets/Icon.hpp"
+#include <SDL3/SDL_render.h>
+#include "ctx/Dctx.hpp"
 
-namespace katzen {
-void Icon::resize(Gctx g) {
-  const float iconSize = measureIcon();
-  m_rect.w = g.clampWidth(padding.getX() + iconSize);
-  m_rect.h = g.clampHeight(padding.getY() + iconSize);
+namespace katze {
+void Icon::resize(Gctx g, FRect &rect) {
+  const float iconSize = m_scale * KATZE_ICON_SIZE;
+  rect.w = g.clampWidth(iconSize);
+  rect.h = g.clampHeight(iconSize);
 }
 
-void Icon::draw(Dctx &d) {
+void Icon::view(Dctx &d, FRect rect) {
+  d.root.renderer.setDrawColor(d.colors().text);
   drawIcon(
-    icon,
-    x() + padding.left,
-    y() + padding.top,
-    m_scale * d.theme.iconSize,
-    (Color)d.colors().text
+    d.root.renderer.data(),
+    bits,
+    rect.x,
+    rect.y,
+    m_scale * d.root.theme.iconSize
   );
 }
-} // namespace katzen
+} // namespace katze
