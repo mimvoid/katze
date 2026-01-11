@@ -33,6 +33,7 @@ install_headers(
   'widgets/Checkbox.hpp',
   'widgets/Icon.hpp',
   'widgets/Label.hpp',
+  'widgets/LabelEx.hpp',
   'widgets/Rectangle.hpp',
   'widgets/Slider.hpp',
   'widgets/Spacer.hpp',
