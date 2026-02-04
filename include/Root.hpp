@@ -9,13 +9,13 @@
 #include "core/Align.hpp"
 #include "widgets/Widget.hpp"
 
+struct TTF_TextEngine;
+
 namespace katze {
 /**
  * Entry-point to a katze widget tree.
  */
 struct Root {
-  Renderer &renderer;
-
   Theme theme{};
   AlignVec2 align{Align::CENTER};
   Font font{};
@@ -26,8 +26,16 @@ struct Root {
   // Currently focused reactive widget, such as being hovered over or pressed.
   Reactive *focused{};
 
-  Root(Renderer &renderer, Theme theme = {})
-    : renderer(renderer), theme(theme) {}
+  Root(Renderer renderer, Theme theme = {});
+
+  /**
+   * Free the text engine and any widgets.
+   */
+  void destroy();
+
+  constexpr Renderer renderer() const { return mRenderer; }
+  constexpr SDL_Renderer *sdlRenderer() const { return mRenderer.data; }
+  constexpr TTF_TextEngine *textEngine() const { return mTextEngine; }
 
   /**
    * Find the size of the window and resize and reposition the widgets.
@@ -43,6 +51,10 @@ struct Root {
    * Draw the widgets and collect messages.
    */
   std::vector<uint32_t> view();
+
+private:
+  Renderer mRenderer;
+  TTF_TextEngine *mTextEngine{nullptr};
 };
 } // namespace katze
 

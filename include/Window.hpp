@@ -4,8 +4,8 @@
 #include <cstdint>
 #include <optional>
 #include <vector>
-#include "core/Vec2.hpp"
 #include "Renderer.hpp"
+#include "core/Vec2.hpp"
 
 struct SDL_Window;
 
@@ -36,11 +36,23 @@ struct ResizeData {
 std::vector<ResizeData> resizedWindows();
 
 struct Window {
-  Renderer renderer{*this};
   SDL_Window *data{nullptr};
 
-  Window(const char *title, int width, int height, uint8_t windowFlags = 0);
+  Window() = default;
+  Window(SDL_Window *window);
 
+  /**
+   * Create a new window and its renderer.
+   *
+   * @param title Title of the window
+   * @param width Initial width of the window
+   * @param height Initial height of the window
+   * @param windowFlags Property flags for the window
+   * @return The renderer for the newly created window
+   */
+  Renderer init(const char *title, int width, int height, uint8_t windowFlags = 0);
+
+  Renderer renderer() const;
   uint32_t id() const;
 
   bool valid() const;

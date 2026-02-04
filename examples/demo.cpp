@@ -1,6 +1,7 @@
 #include <SDL3/SDL_error.h>
 #include <SDL3/SDL_log.h>
 #include <SDL3/SDL_timer.h>
+#include "Renderer.hpp"
 #include "Root.hpp"
 #include "Window.hpp"
 #include "app.hpp"
@@ -16,15 +17,17 @@ int main(void) {
   using namespace katze;
   katze::init("katze Widget Factory", "0.1.0", "com.katze.widgetFactory");
 
-  Window win{
+  Window win{};
+  Renderer rend = win.init(
     "katze Widget Factory", 960, 720, WINDOW_RESIZABLE | WINDOW_MAXIMIZED
-  };
+  );
+
   if (!win.valid()) {
     SDL_Log("Failed to initialize window: %s", SDL_GetError());
     katze::quit();
     return 1;
   }
-  win.renderer.backgroundColor = {255, 245, 225};
+  rend.backgroundColor = {255, 245, 225};
 
   const uint32_t winId = win.id();
   IconBits catHead{iconBitsById(KatzIcon::CAT_HEAD, katzFill)};
@@ -34,7 +37,7 @@ int main(void) {
   Font title = tamzen.copy();
   title.setSize(28.0f);
 
-  Root root{win.renderer};
+  Root root{rend};
   root.font = tamzen;
 
   // Widgets that will be referenced later.
@@ -74,9 +77,9 @@ int main(void) {
       }
     }
 
-    win.renderer.clear();
+    rend.clear();
     messages = root.view();
-    win.renderer.present();
+    rend.present();
 
     for (uint32_t msg : messages) {
       switch (msg) {
@@ -102,7 +105,7 @@ int main(void) {
     SDL_Delay(1000 / 60);
   }
 
-  root.child.reset();
+  root.destroy();
   win.destroy();
 
   tamzen.close();

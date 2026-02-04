@@ -55,23 +55,27 @@ SDL_WindowFlags toSDLFlags(uint8_t flags) {
   return sdlFlags;
 }
 
-Window::Window(const char *title, int width, int height, uint8_t windowFlags) {
-  SDL_Renderer *rend = nullptr;
+Window::Window(SDL_Window *window) : data(window) {}
+
+Renderer
+Window::init(const char *title, int width, int height, uint8_t windowFlags) {
+  Renderer rend{};
   SDL_CreateWindowAndRenderer(
-    title, width, height, toSDLFlags(windowFlags), &data, &rend
+    title, width, height, toSDLFlags(windowFlags), &data, &rend.data
   );
-  renderer.setData(rend);
+  return rend;
 }
+
+Renderer Window::renderer() const { return Renderer{SDL_GetRenderer(data)}; }
 
 uint32_t Window::id() const { return SDL_GetWindowID(data); }
 
-bool Window::valid() const {
-  return data && renderer.data() && SDL_GetWindowID(data) != 0;
-}
+bool Window::valid() const { return data && SDL_GetWindowID(data) != 0; }
 
 void Window::destroy() {
-  SDL_HideWindow(data); // Without hiding, the app will look as if it's lagging
-  renderer.destroy();
+  // Without hiding, the app will look as if it's lagging
+  SDL_HideWindow(data);
+  SDL_DestroyRenderer(SDL_GetRenderer(data));
   SDL_DestroyWindow(data);
 }
 

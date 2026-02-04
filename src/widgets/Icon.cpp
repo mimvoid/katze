@@ -10,9 +10,9 @@ void Icon::resize(Gctx g, FRect &rect) {
 }
 
 void Icon::view(Dctx &d, FRect rect) {
-  d.root.renderer.setDrawColor(d.colors().text);
+  d.root.renderer().setDrawColor(d.colors().text);
   drawIcon(
-    d.root.renderer.data(),
+    d.root.sdlRenderer(),
     bits,
     rect.x,
     rect.y,

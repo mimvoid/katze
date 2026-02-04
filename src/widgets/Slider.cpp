@@ -67,12 +67,12 @@ void Slider::view(Dctx &d, FRect rect) {
   const StateColors &colors = d.colors();
 
   // Draw the slider.
-  d.root.renderer.setDrawColor(colors.base);
-  SDL_RenderFillRect(d.root.renderer.data(), &rec);
+  d.root.renderer().setDrawColor(colors.base);
+  SDL_RenderFillRect(d.root.sdlRenderer(), &rec);
 
-  d.root.renderer.setDrawColor(colors.border);
+  d.root.renderer().setDrawColor(colors.border);
   if (d.root.theme.borderWidth != 0) {
-    SDL_RenderRect(d.root.renderer.data(), &rec);
+    SDL_RenderRect(d.root.sdlRenderer(), &rec);
   }
 
   // Draw the trough.
@@ -87,7 +87,7 @@ void Slider::view(Dctx &d, FRect rect) {
       }
     }
 
-    SDL_RenderFillRect(d.root.renderer.data(), &trough);
+    SDL_RenderFillRect(d.root.sdlRenderer(), &trough);
   }
 }
 } // namespace katze

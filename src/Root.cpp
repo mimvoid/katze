@@ -1,11 +1,23 @@
 #include "Root.hpp"
 #include <SDL3/SDL_render.h>
+#include <SDL3_ttf/SDL_ttf.h>
 #include "Window.hpp"
 #include "ctx/Dctx.hpp"
 
 namespace katze {
+Root::Root(Renderer renderer, Theme theme)
+  : theme(theme),
+    mRenderer(renderer),
+    mTextEngine(TTF_CreateRendererTextEngine(renderer.data)) {}
+
+void Root::destroy() {
+  focused = nullptr;
+  child.reset();
+  TTF_DestroyRendererTextEngine(mTextEngine);
+}
+
 void Root::layout() {
-  std::optional<IVec2> size = renderer.window.size();
+  std::optional<IVec2> size = mRenderer.window().size();
   if (size.has_value()) {
     layout(size->x, size->y);
   }
@@ -14,7 +26,7 @@ void Root::layout() {
 void Root::layout(float width, float height) {
   if (!child) return;
 
-  const Gctx g{renderer.textEngine(), font, width, height};
+  const Gctx g{mTextEngine, font, width, height};
   child->resize(g, childRect);
 
   // Once the child's resized, we can know how to align it.
@@ -30,7 +42,7 @@ std::vector<uint32_t> Root::view() {
   Dctx d{*this};
 
   // Set the mouse info for this window, if any.
-  if (renderer.window.focused()) {
+  if (mRenderer.window().focused()) {
     const MouseState mouse = mouseState();
     d.mouse = Dctx::MouseInfo{true, mouse.leftButton, mouse.x, mouse.y};
   }

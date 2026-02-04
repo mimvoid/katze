@@ -67,11 +67,11 @@ void Label::viewNoTextPtr(Font font, Dctx &d, FRect rect) {
 
   if (surface) {
     SDL_Texture *texture =
-      SDL_CreateTextureFromSurface(d.root.renderer.data(), surface);
+      SDL_CreateTextureFromSurface(d.root.sdlRenderer(), surface);
 
     if (texture) {
       SDL_FRect dst{rect.x, rect.y, rect.w, rect.h};
-      SDL_RenderTexture(d.root.renderer.data(), texture, nullptr, &dst);
+      SDL_RenderTexture(d.root.sdlRenderer(), texture, nullptr, &dst);
     }
 
     SDL_DestroyTexture(texture);

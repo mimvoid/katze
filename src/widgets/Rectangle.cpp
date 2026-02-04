@@ -14,13 +14,13 @@ void Rectangle::view(Dctx &d, FRect rect) {
   StateColors colors = d.colors();
 
   if (filled) {
-    d.root.renderer.setDrawColor(colors.base);
-    SDL_RenderFillRect(d.root.renderer.data(), &drawRect);
+    d.root.renderer().setDrawColor(colors.base);
+    SDL_RenderFillRect(d.root.sdlRenderer(), &drawRect);
   }
 
   if (bordered) {
-    d.root.renderer.setDrawColor(colors.border);
-    SDL_RenderRect(d.root.renderer.data(), &drawRect);
+    d.root.renderer().setDrawColor(colors.border);
+    SDL_RenderRect(d.root.sdlRenderer(), &drawRect);
   }
 }
 } // namespace katze

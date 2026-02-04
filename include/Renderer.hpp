@@ -4,23 +4,21 @@
 #include "core/Rgba.hpp"
 
 struct SDL_Renderer;
-struct TTF_TextEngine;
 
 namespace katze {
 struct Window;
 
 struct Renderer {
-  Window &window;
+  SDL_Renderer *data{nullptr};
   Rgb backgroundColor{};
 
-  Renderer(Window &window);
+  Renderer() = default;
+  Renderer(SDL_Renderer *renderer);
+  Renderer(Window window);
 
   void destroy();
 
-  constexpr SDL_Renderer *data() const { return m_data; }
-  void setData(SDL_Renderer *data);
-
-  constexpr TTF_TextEngine *textEngine() const { return m_textEngine; }
+  Window window() const;
 
   bool clear();
   bool present();
@@ -117,10 +115,6 @@ struct Renderer {
   constexpr bool aDrawCircleFill(float x, float y, float r) {
     return aDrawEllipseFill(x, y, r, r);
   }
-
-private:
-  SDL_Renderer *m_data{nullptr};
-  TTF_TextEngine *m_textEngine{nullptr};
 };
 } // namespace katze
 
