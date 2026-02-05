@@ -50,7 +50,7 @@ struct Window {
    * @param windowFlags Property flags for the window
    * @return The renderer for the newly created window
    */
-  Renderer init(const char *title, int width, int height, uint8_t windowFlags = 0);
+  Renderer init(const char *title, int width, int height, uint16_t windowFlags = 0);
 
   Renderer renderer() const;
   uint32_t id() const;

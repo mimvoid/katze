@@ -37,7 +37,7 @@ std::vector<ResizeData> resizedWindows() {
   return ids;
 }
 
-SDL_WindowFlags toSDLFlags(uint8_t flags) {
+SDL_WindowFlags toSDLFlags(uint16_t flags) {
   SDL_WindowFlags sdlFlags = 0;
 
   if (flags & WINDOW_ALWAYS_ON_TOP) sdlFlags |= SDL_WINDOW_ALWAYS_ON_TOP;
@@ -58,7 +58,7 @@ SDL_WindowFlags toSDLFlags(uint8_t flags) {
 Window::Window(SDL_Window *window) : data(window) {}
 
 Renderer
-Window::init(const char *title, int width, int height, uint8_t windowFlags) {
+Window::init(const char *title, int width, int height, uint16_t windowFlags) {
   Renderer rend{};
   SDL_CreateWindowAndRenderer(
     title, width, height, toSDLFlags(windowFlags), &data, &rend.data
