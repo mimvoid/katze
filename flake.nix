@@ -52,6 +52,7 @@
             sdl3
             sdl3-ttf
             doctest
+            fontconfig
           ];
         };
       });

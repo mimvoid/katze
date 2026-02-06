@@ -2,6 +2,7 @@
 #define KATZE_TEXT_FONT_HPP
 
 #include <cstdint>
+#include <string>
 
 struct TTF_Font;
 
@@ -88,6 +89,14 @@ struct Font {
   FontHinting hinting() const;
   void setHinting(FontHinting value);
 };
+
+/**
+ * Searches for a system font matching a query and returns its file path.
+ *
+ * @param query Font pattern query formatted for fontconfig, such as "sans:bold"
+ * @return Path of a matching font's file, or an empty string on failure.
+ */
+std::string findFontPath(const char *query);
 } // namespace katze
 
 #endif // !KATZE_TEXT_FONT_HPP

@@ -1,7 +1,41 @@
 #include "Font.hpp"
 #include <SDL3_ttf/SDL_ttf.h>
+#include <fontconfig/fontconfig.h>
 
 namespace katze {
+std::string findFontPath(const char *query) {
+  std::string path{};
+  FcConfig *config = FcInitLoadConfigAndFonts();
+
+  if (config) {
+    FcPattern *pat = FcNameParse((FcChar8 *)query);
+
+    if (pat) {
+      FcConfigSetDefaultSubstitute(config, pat);
+
+      FcResult result;
+      FcPattern *font = FcFontMatch(config, pat, &result);
+
+      if (font) {
+        FcChar8 *filepath;
+        if (FcPatternGetString(font, FC_FILE, 0, &filepath) == FcResultMatch) {
+          // Copy contents into the returned string. fontconfig handles the
+          // original string.
+          path = (char *)filepath;
+        }
+      }
+
+      FcPatternDestroy(font);
+    }
+
+    FcPatternDestroy(pat);
+    FcConfigDestroy(config);
+  }
+
+  FcFini();
+  return path;
+}
+
 FontDirection fromTTFDir(TTF_Direction from) {
   switch (from) {
   case TTF_DIRECTION_LTR: return FontDirection::LTR;
