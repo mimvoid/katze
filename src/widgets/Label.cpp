@@ -20,7 +20,7 @@ void Label::resizeForFont(Font font, const Gctx &g, FRect &rect) {
   int height = 0;
   const int wrapWidth = wrapWords ? g.w * g.scale : 0;
 
-  if (!textPtr && g.textEngine) {
+  if (!textPtr) {
     // Create a new text
     textPtr = TTF_CreateText(g.textEngine, font.data, text, 0);
   }

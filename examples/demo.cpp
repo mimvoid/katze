@@ -105,6 +105,7 @@ int main(void) {
     SDL_Delay(1000 / 60);
   }
 
+  buttonText.reset(); // Destroy the Text before destroying the text engine.
   root.destroy();
   win.destroy();
 
