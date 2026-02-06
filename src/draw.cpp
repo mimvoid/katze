@@ -148,6 +148,10 @@ std::vector<SDL_FPoint> aEllipsePoints(float x, float y, float rx, float ry) {
 /* Definitions */
 /*-------------*/
 
+bool drawLine(SDL_Renderer *rend, float x1, float y1, float x2, float y2) {
+  return SDL_RenderLine(rend, x1, y1, x2, y2);
+}
+
 bool drawLine(
   SDL_Renderer *rend, float x1, float y1, float x2, float y2, float lineWidth
 ) {
@@ -215,54 +219,81 @@ bool drawLine(
   return result;
 }
 
+bool drawRect(SDL_Renderer *rend, float x, float y, float w, float h) {
+  SDL_FRect rect{x, y, w, h};
+  return SDL_RenderRect(rend, &rect);
+}
+
 bool drawRect(
   SDL_Renderer *rend, float x, float y, float w, float h, float lineWidth
 ) {
+  return drawRect(rend, SDL_FRect{x, y, w, h}, lineWidth);
+}
+
+bool drawRect(SDL_Renderer *rend, SDL_FRect rect) {
+  return SDL_RenderRect(rend, &rect);
+}
+
+bool drawRect(SDL_Renderer *rend, SDL_FRect rect, float lineWidth) {
   if (rend == nullptr || lineWidth < 0.0f) {
     return false; // Invalid parameters.
   }
 
   if (lineWidth <= 1.0f) {
     // Draw with a line width of 1.
-    const SDL_FRect rect{x, y, w, h};
     return SDL_RenderRect(rend, &rect);
   }
 
   const float halfWidth = lineWidth / 2.0f;
-  const float x0 = x - halfWidth;
-  const float y0 = y - halfWidth;
+  const float x0 = rect.x - halfWidth;
+  const float y0 = rect.y - halfWidth;
 
   // Create thick lines using filled rectangles.
   const SDL_FRect lines[4]{
-    {x0, y0, w + lineWidth, lineWidth},     // Top line
-    {x0, y0 + h, w + lineWidth, lineWidth}, // Bottom line
-    {x0, y0, lineWidth, h + lineWidth},     // Left line
-    {x0 + w, y0, lineWidth, h + lineWidth}, // Right line
+    {x0, y0, rect.w + lineWidth, lineWidth},          // Top line
+    {x0, y0 + rect.h, rect.w + lineWidth, lineWidth}, // Bottom line
+    {x0, y0, lineWidth, rect.h + lineWidth},          // Left line
+    {x0 + rect.w, y0, lineWidth, rect.h + lineWidth}, // Right line
   };
 
   return SDL_RenderFillRects(rend, lines, 4);
 }
 
+bool drawRectFill(SDL_Renderer *rend, float x, float y, float w, float h) {
+  SDL_FRect rect{x, y, w, h};
+  return SDL_RenderFillRect(rend, &rect);
+}
+
 bool drawRectFill(
   SDL_Renderer *rend, float x, float y, float w, float h, float lineWidth
 ) {
+  return drawRect(rend, SDL_FRect{x, y, w, h}, lineWidth);
+}
+
+bool drawRectFill(SDL_Renderer *rend, SDL_FRect rect) {
+  return SDL_RenderFillRect(rend, &rect);
+}
+
+bool drawRectFill(SDL_Renderer *rend, SDL_FRect rect, float lineWidth) {
   if (rend == nullptr || lineWidth < 0.0f) {
     return false;
   }
 
   if (lineWidth <= 1.0f) {
     // Draw with a line width of 1.
-    const SDL_FRect rect{x, y, w, h};
     return SDL_RenderFillRect(rend, &rect);
   }
 
   // Simply expand the rectangle by the lineWidth.
   const float halfWidth = lineWidth / 2.0f;
-  const SDL_FRect rect{
-    x - halfWidth, y - halfWidth, w + lineWidth, h + lineWidth
+  const SDL_FRect expandedRect{
+    rect.x - halfWidth,
+    rect.y - halfWidth,
+    rect.w + lineWidth,
+    rect.h + lineWidth
   };
 
-  return SDL_RenderFillRect(rend, &rect);
+  return SDL_RenderFillRect(rend, &expandedRect);
 }
 
 bool aDrawEllipse(SDL_Renderer *rend, float x, float y, float rx, float ry) {

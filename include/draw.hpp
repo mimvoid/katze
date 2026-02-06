@@ -6,8 +6,22 @@
  */
 
 struct SDL_Renderer;
+struct SDL_FRect;
 
 namespace katze {
+/**
+ * Draw a line.
+ *
+ * @param rend Renderer to draw on.
+ * @param x1 x-coordinate of the start point.
+ * @param y1 y-coordinate of the start point.
+ * @param x2 x-coordinate of the end point.
+ * @param y2 y-coordinate of the end point.
+ *
+ * @return `true` on success, `false` on failure.
+ */
+bool drawLine(SDL_Renderer *rend, float x1, float y1, float x2, float y2);
+
 /**
  * Draw a line with a set width.
  *
@@ -21,8 +35,21 @@ namespace katze {
  * @return `true` on success, `false` on failure.
  */
 bool drawLine(
-  SDL_Renderer *rend, float x1, float y1, float x2, float y2, float lineWidth = 1.0f
+  SDL_Renderer *rend, float x1, float y1, float x2, float y2, float lineWidth
 );
+
+/**
+ * Draw an unfilled rectangle.
+ *
+ * @param rend Renderer to draw on.
+ * @param x x-coordinate of the top left corner.
+ * @param y y-coordinate of the top left corner.
+ * @param w Width of the rectangle.
+ * @param h Height of the rectangle.
+ *
+ * @return `true` on success, `false` on failure.
+ */
+bool drawRect(SDL_Renderer *rend, float x, float y, float w, float h);
 
 /**
  * Draw an unfilled rectangle with a set line width.
@@ -37,8 +64,40 @@ bool drawLine(
  * @return `true` on success, `false` on failure.
  */
 bool drawRect(
-  SDL_Renderer *rend, float x, float y, float w, float h, float lineWidth = 1.0f
+  SDL_Renderer *rend, float x, float y, float w, float h, float lineWidth
 );
+
+/**
+ * Draw an unfilled rectangle with a set line width.
+ *
+ * @param rend Renderer to draw on.
+ * @param rect Rectangle to draw.
+ * @return `true` on success, `false` on failure.
+ */
+bool drawRect(SDL_Renderer *rend, SDL_FRect rect);
+
+/**
+ * Draw an unfilled rectangle with a set line width.
+ *
+ * @param rend Renderer to draw on.
+ * @param rect Rectangle to draw.
+ * @param lineWidth Line width.
+ * @return `true` on success, `false` on failure.
+ */
+bool drawRect(SDL_Renderer *rend, SDL_FRect rect, float lineWidth);
+
+/**
+ * Draw a filled rectangle with a set line width.
+ *
+ * @param rend Renderer to draw on.
+ * @param x x-coordinate of the top left corner.
+ * @param y y-coordinate of the top left corner.
+ * @param w Width of the rectangle.
+ * @param h Height of the rectangle.
+ *
+ * @return `true` on success, `false` on failure.
+ */
+bool drawRectFill(SDL_Renderer *rend, float x, float y, float w, float h);
 
 /**
  * Draw a filled rectangle with a set line width.
@@ -53,8 +112,27 @@ bool drawRect(
  * @return `true` on success, `false` on failure.
  */
 bool drawRectFill(
-  SDL_Renderer *rend, float x, float y, float w, float h, float lineWidth = 1.0f
+  SDL_Renderer *rend, float x, float y, float w, float h, float lineWidth
 );
+
+/**
+ * Draw a filled rectangle with a set line width.
+ *
+ * @param rend Renderer to draw on.
+ * @param rect Rectangle to draw.
+ * @return `true` on success, `false` on failure.
+ */
+bool drawRectFill(SDL_Renderer *rend, SDL_FRect rect);
+
+/**
+ * Draw a filled rectangle with a set line width.
+ *
+ * @param rend Renderer to draw on.
+ * @param rect Rectangle to draw.
+ * @param lineWidth Line width.
+ * @return `true` on success, `false` on failure.
+ */
+bool drawRectFill(SDL_Renderer *rend, SDL_FRect rect, float lineWidth);
 
 /**
  * Draw an aliased (without anti-aliasing) unfilled ellipse.

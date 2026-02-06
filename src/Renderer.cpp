@@ -1,4 +1,5 @@
 #include "Renderer.hpp"
+#include <SDL3/SDL_rect.h>
 #include <SDL3/SDL_render.h>
 #include <SDL3/SDL_video.h>
 #include <SDL3_ttf/SDL_ttf.h>
@@ -33,20 +34,39 @@ bool Renderer::setDrawColor(Rgba rgba) {
   return SDL_SetRenderDrawColor(data, rgba.r, rgba.g, rgba.b, rgba.a);
 }
 
+bool Renderer::drawLine(float x1, float y1, float x2, float y2) {
+  return katze::drawLine(data, x1, y1, x2, y2);
+}
 bool Renderer::drawLine(
   float x1, float y1, float x2, float y2, float lineWidth
 ) {
   return katze::drawLine(data, x1, y1, x2, y2, lineWidth);
 }
 
+bool Renderer::drawRect(float x, float y, float w, float h) {
+  return katze::drawRect(data, x, y, w, h);
+}
 bool Renderer::drawRect(float x, float y, float w, float h, float lineWidth) {
   return katze::drawRect(data, x, y, w, h, lineWidth);
 }
+bool Renderer::drawRect(SDL_FRect rect) { return katze::drawRect(data, rect); }
+bool Renderer::drawRect(SDL_FRect rect, float lineWidth) {
+  return katze::drawRect(data, rect, lineWidth);
+}
 
+bool Renderer::drawRectFill(float x, float y, float w, float h) {
+  return katze::drawRectFill(data, x, y, w, h);
+}
 bool Renderer::drawRectFill(
   float x, float y, float w, float h, float lineWidth
 ) {
   return katze::drawRectFill(data, x, y, w, h, lineWidth);
+}
+bool Renderer::drawRectFill(SDL_FRect rect) {
+  return katze::drawRectFill(data, rect);
+}
+bool Renderer::drawRectFill(SDL_FRect rect, float lineWidth) {
+  return katze::drawRectFill(data, rect, lineWidth);
 }
 
 bool Renderer::aDrawEllipse(float x, float y, float rx, float ry) {
