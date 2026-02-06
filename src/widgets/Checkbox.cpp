@@ -19,26 +19,27 @@ void Checkbox::view(Dctx &d, FRect rect) {
   const StateColors &colors = d.colors();
   const SDL_FRect drawRect = d.scaledRect(rect);
 
-  d.root.renderer().setDrawColor(colors.base);
-  SDL_RenderFillRect(d.root.sdlRenderer(), &drawRect);
+  Renderer rend = d.root.renderer();
+  rend.setDrawColor(colors.base);
+  rend.drawRectFill(drawRect);
 
-  const bool drawBorder = d.root.theme.borderWidth != 0;
-  if (drawBorder || checked) {
-    d.root.renderer().setDrawColor(colors.border);
+  const float borderWidth = d.root.theme.borderWidth * d.scale;
+  if (borderWidth != 0) {
+    rend.setDrawColor(colors.border);
+    rend.drawRect(drawRect, borderWidth);
 
-    if (drawBorder) {
-      SDL_RenderRect(d.root.sdlRenderer(), &drawRect);
-    }
     if (checked) {
-      const float gap = d.root.theme.borderWidth * 2 * d.scale;
-      const SDL_FRect checkRect{
+      const float gap = borderWidth * 2;
+      rend.drawRectFill({
         drawRect.x + gap,
         drawRect.y + gap,
         drawRect.w - (2 * gap),
         drawRect.h - (2 * gap)
-      };
-      SDL_RenderFillRect(d.root.sdlRenderer(), &checkRect);
+      });
     }
+  } else if (checked) {
+    rend.setDrawColor(colors.border);
+    rend.drawRectFill(drawRect);
   }
 }
 } // namespace katze

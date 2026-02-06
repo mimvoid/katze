@@ -10,17 +10,20 @@ void Rectangle::resize(Gctx g, FRect &rect) {
 }
 
 void Rectangle::view(Dctx &d, FRect rect) {
+  if (!filled && !bordered) return;
+
   SDL_FRect drawRect = d.scaledRect(rect);
   StateColors colors = d.colors();
+  Renderer rend = d.root.renderer();
 
   if (filled) {
-    d.root.renderer().setDrawColor(colors.base);
-    SDL_RenderFillRect(d.root.sdlRenderer(), &drawRect);
+    rend.setDrawColor(colors.base);
+    rend.drawRectFill(drawRect);
   }
 
   if (bordered) {
-    d.root.renderer().setDrawColor(colors.border);
-    SDL_RenderRect(d.root.sdlRenderer(), &drawRect);
+    rend.setDrawColor(colors.border);
+    rend.drawRect(drawRect, d.root.theme.borderWidth * d.scale);
   }
 }
 } // namespace katze
