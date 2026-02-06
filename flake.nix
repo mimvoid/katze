@@ -47,6 +47,8 @@
             ninja
             meson
 
+            gdb
+
             sdl3
             sdl3-ttf
             doctest
