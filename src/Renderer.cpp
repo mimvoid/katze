@@ -9,7 +9,10 @@ namespace katze {
 Renderer::Renderer(SDL_Renderer *renderer) : data(renderer) {}
 Renderer::Renderer(Window window) : data(SDL_GetRenderer(window.data)) {}
 
-void Renderer::destroy() { SDL_DestroyRenderer(data); }
+void Renderer::destroy() {
+  SDL_DestroyRenderer(data);
+  data = nullptr;
+}
 
 Window Renderer::window() const { return Window{SDL_GetRenderWindow(data)}; }
 

@@ -46,7 +46,11 @@ Font::Font(const char *filePath, float pointSize)
   : data(TTF_OpenFont(filePath, pointSize)) {}
 
 Font Font::copy() { return data ? Font{TTF_CopyFont(data)} : Font{}; }
-void Font::close() { TTF_CloseFont(data); }
+
+void Font::close() {
+  TTF_CloseFont(data);
+  data = nullptr;
+}
 
 const char *Font::familyName() const { return TTF_GetFontFamilyName(data); }
 int Font::weight() const { return TTF_GetFontWeight(data); }

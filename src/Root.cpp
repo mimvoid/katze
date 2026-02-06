@@ -13,7 +13,9 @@ Root::Root(Renderer renderer, Theme theme)
 void Root::destroy() {
   focused = nullptr;
   child.reset();
+
   TTF_DestroyRendererTextEngine(mTextEngine);
+  mTextEngine = nullptr;
 }
 
 void Root::layout() {

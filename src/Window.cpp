@@ -77,6 +77,7 @@ void Window::destroy() {
   SDL_HideWindow(data);
   SDL_DestroyRenderer(SDL_GetRenderer(data));
   SDL_DestroyWindow(data);
+  data = nullptr;
 }
 
 bool Window::show() { return SDL_ShowWindow(data); }
