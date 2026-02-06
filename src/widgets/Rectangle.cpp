@@ -10,7 +10,7 @@ void Rectangle::resize(Gctx g, FRect &rect) {
 }
 
 void Rectangle::view(Dctx &d, FRect rect) {
-  SDL_FRect drawRect{rect.x, rect.y, rect.w, rect.h};
+  SDL_FRect drawRect = d.scaledRect(rect);
   StateColors colors = d.colors();
 
   if (filled) {

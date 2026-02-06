@@ -45,25 +45,30 @@ void Slider::resize(Gctx g, FRect &rect) {
 
 void Slider::view(Dctx &d, FRect rect) {
   const bool pressReleased = updateState(d, rect);
+  const SDL_FRect rec = d.scaledRect(rect);
 
-  const float gap = d.root.theme.borderWidth * 2;
+  const float gap = d.root.theme.borderWidth * 2 * d.scale;
   SDL_FRect trough{
-    rect.x + gap, rect.y + gap, rect.w - (2 * gap), rect.h - (2 * gap)
+    rec.x + gap, rec.y + gap, rec.w - (2 * gap), rec.h - (2 * gap)
   };
 
   // Update the slider value
   if (enabled && d.mouse.valid && (d.root.focused == this || pressReleased)) {
-    if (direction == Axis::X)
-      setValue(toScaledValue(d.mouse.x, trough.x, trough.x + trough.w));
-    else
-      setValue(toScaledValue(d.mouse.y, trough.y, trough.y + trough.h));
+    if (direction == Axis::X) {
+      setValue(
+        toScaledValue(d.mouse.x * d.scale, trough.x, trough.x + trough.w)
+      );
+    } else {
+      setValue(
+        toScaledValue(d.mouse.y * d.scale, trough.y, trough.y + trough.h)
+      );
+    }
 
     if (pressReleased) {
       d.messages.emplace_back(onValueUpdate);
     }
   }
 
-  const SDL_FRect rec{rect.x, rect.y, rect.w, rect.h};
   const StateColors &colors = d.colors();
 
   // Draw the slider.

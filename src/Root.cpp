@@ -18,6 +18,16 @@ void Root::destroy() {
   mTextEngine = nullptr;
 }
 
+void Root::setFont(Font font) {
+  const float scale = mRenderer.window().displayScale();
+  if (scale > 0.0f) {
+    font.setSize(font.size() * scale);
+  }
+  mFont = font;
+}
+
+void Root::setFontUnscaled(Font font) { mFont = font; }
+
 void Root::layout() {
   std::optional<IVec2> size = mRenderer.window().size();
   if (size.has_value()) {
@@ -28,7 +38,7 @@ void Root::layout() {
 void Root::layout(float width, float height) {
   if (!child) return;
 
-  const Gctx g{mTextEngine, font, width, height};
+  const Gctx g{mTextEngine, mFont, width, height, mRenderer.window().displayScale()};
   child->resize(g, childRect);
 
   // Once the child's resized, we can know how to align it.
@@ -41,7 +51,7 @@ void Root::layout(float width, float height) {
 std::vector<uint32_t> Root::view() {
   if (!child) return {};
 
-  Dctx d{*this};
+  Dctx d{*this, mRenderer.window().displayScale()};
 
   // Set the mouse info for this window, if any.
   if (mRenderer.window().focused()) {

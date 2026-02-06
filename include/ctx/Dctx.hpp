@@ -8,6 +8,7 @@
 #include "../input/mouse.hpp"
 
 struct SDL_Renderer;
+struct SDL_FRect;
 
 namespace katze {
 /**
@@ -23,6 +24,8 @@ struct Dctx {
   };
 
   Root &root;
+  float scale{1.0f}; // Display scale of the root's renderer window.
+
   MouseInfo mouse{};
   std::vector<uint32_t> messages{};
 
@@ -32,6 +35,8 @@ struct Dctx {
   constexpr const StateColors &colors() const {
     return root.theme.stateColors(state);
   }
+
+  SDL_FRect scaledRect(FRect rect) const;
 };
 } // namespace katze
 

@@ -14,9 +14,9 @@ void Icon::view(Dctx &d, FRect rect) {
   drawIcon(
     d.root.sdlRenderer(),
     bits,
-    rect.x,
-    rect.y,
-    m_scale * d.root.theme.iconSize
+    rect.x * d.scale,
+    rect.y * d.scale,
+    m_scale * d.root.theme.iconSize * d.scale
   );
 }
 } // namespace katze

@@ -61,7 +61,12 @@ Renderer
 Window::init(const char *title, int width, int height, uint16_t windowFlags) {
   Renderer rend{};
   SDL_CreateWindowAndRenderer(
-    title, width, height, toSDLFlags(windowFlags), &data, &rend.data
+    title,
+    width,
+    height,
+    toSDLFlags(windowFlags) | SDL_WINDOW_HIGH_PIXEL_DENSITY,
+    &data,
+    &rend.data
   );
   return rend;
 }
@@ -87,6 +92,8 @@ bool Window::minimize() { return SDL_MinimizeWindow(data); }
 bool Window::restore() { return SDL_RestoreWindow(data); }
 
 bool Window::focused() const { return data && SDL_GetMouseFocus() == data; }
+
+float Window::displayScale() const { return SDL_GetWindowDisplayScale(data); }
 
 std::optional<IVec2> Window::minSize() const {
   IVec2 result{};

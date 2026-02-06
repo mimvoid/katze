@@ -35,10 +35,10 @@ int main(void) {
   // Load fonts
   Font tamzen = loadTamzen7x14Font();
   Font title = tamzen.copy();
-  title.setSize(28.0f);
+  title.setSize(28.0f * win.displayScale());
 
   Root root{rend};
-  root.font = tamzen;
+  root.setFont(tamzen);
 
   // Widgets that will be referenced later.
   std::shared_ptr checkbox = std::make_shared<Checkbox>(false, CHECK);

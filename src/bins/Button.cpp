@@ -38,7 +38,7 @@ void Button::view(Dctx &d, FRect rect) {
     d.messages.emplace_back(onClick);
   }
 
-  SDL_FRect drawRect{rect.x, rect.y, rect.w, rect.h};
+  SDL_FRect drawRect = d.scaledRect(rect);
   StateColors colors = d.colors();
 
   d.root.renderer().setDrawColor(colors.base);

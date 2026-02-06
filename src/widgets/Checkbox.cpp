@@ -17,22 +17,25 @@ void Checkbox::view(Dctx &d, FRect rect) {
   }
 
   const StateColors &colors = d.colors();
-  const SDL_FRect rec{rect.x, rect.y, rect.w, rect.h};
+  const SDL_FRect drawRect = d.scaledRect(rect);
 
   d.root.renderer().setDrawColor(colors.base);
-  SDL_RenderFillRect(d.root.sdlRenderer(), &rec);
+  SDL_RenderFillRect(d.root.sdlRenderer(), &drawRect);
 
   const bool drawBorder = d.root.theme.borderWidth != 0;
   if (drawBorder || checked) {
     d.root.renderer().setDrawColor(colors.border);
 
     if (drawBorder) {
-      SDL_RenderRect(d.root.sdlRenderer(), &rec);
+      SDL_RenderRect(d.root.sdlRenderer(), &drawRect);
     }
     if (checked) {
-      const float gap = d.root.theme.borderWidth * 2;
+      const float gap = d.root.theme.borderWidth * 2 * d.scale;
       const SDL_FRect checkRect{
-        rect.x + gap, rect.y + gap, rect.w - (2 * gap), rect.h - (2 * gap)
+        drawRect.x + gap,
+        drawRect.y + gap,
+        drawRect.w - (2 * gap),
+        drawRect.h - (2 * gap)
       };
       SDL_RenderFillRect(d.root.sdlRenderer(), &checkRect);
     }
