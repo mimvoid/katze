@@ -1,5 +1,5 @@
 option('tests', type: 'boolean', value: false,
        description: 'Build the tests for katze (currently unimplemented)')
 
-option('examples', type: 'boolean', value: true,
+option('examples', type: 'boolean', value: false,
        description: 'Build and install the examples for katze')
