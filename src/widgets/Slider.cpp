@@ -36,9 +36,11 @@ fromScaledValue(float scaledValue, float unscaledMin, float unscaledMax) {
 }
 
 void Slider::resize(Gctx g, FRect &rect) {
-  const float troughThickness = m_sizeScale * g.font.size();
-  const float dirSize = g.clampSize(troughThickness * 4, direction);
-  const float flipSize = g.clampSize(troughThickness, !direction);
+  const float troughThickness = m_sizeScale * g.sizes.font.size();
+  const float border = g.sizes.border * 2;
+
+  const float dirSize = g.clampSize(troughThickness * 4 + border, direction);
+  const float flipSize = g.clampSize(troughThickness + border, !direction);
 
   rect.setSizes(direction, dirSize, flipSize);
 }
@@ -47,7 +49,7 @@ void Slider::view(Dctx &d, FRect rect) {
   const bool pressReleased = updateState(d, rect);
   const SDL_FRect rec = d.scaledRect(rect);
 
-  const float gap = d.root.theme.borderWidth * 2 * d.scale;
+  const float gap = d.root.theme.sizes.border * 2 * d.scale;
   SDL_FRect trough{
     rec.x + gap, rec.y + gap, rec.w - (2 * gap), rec.h - (2 * gap)
   };
@@ -77,8 +79,8 @@ void Slider::view(Dctx &d, FRect rect) {
   rend.drawRectFill(rec);
 
   rend.setDrawColor(colors.border);
-  if (d.root.theme.borderWidth != 0) {
-    rend.drawRect(rec, d.root.theme.borderWidth * d.scale);
+  if (d.root.theme.sizes.border != 0) {
+    rend.drawRect(rec, d.root.theme.sizes.border * d.scale);
   }
 
   // Draw the trough.

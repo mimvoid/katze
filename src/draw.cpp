@@ -244,16 +244,18 @@ bool drawRect(SDL_Renderer *rend, SDL_FRect rect, float lineWidth) {
     return SDL_RenderRect(rend, &rect);
   }
 
-  const float halfWidth = lineWidth / 2.0f;
-  const float x0 = rect.x - halfWidth;
-  const float y0 = rect.y - halfWidth;
+  const float twoWidth = lineWidth * 2.0f;
+  const float x0 = rect.x - lineWidth;
+  const float y0 = rect.y - lineWidth;
+  const float x1 = rect.x + rect.w;
+  const float y1 = rect.y + rect.h;
 
   // Create thick lines using filled rectangles.
   const SDL_FRect lines[4]{
-    {x0, y0, rect.w + lineWidth, lineWidth},          // Top line
-    {x0, y0 + rect.h, rect.w + lineWidth, lineWidth}, // Bottom line
-    {x0, y0, lineWidth, rect.h + lineWidth},          // Left line
-    {x0 + rect.w, y0, lineWidth, rect.h + lineWidth}, // Right line
+    {x0, y0, rect.w + twoWidth, lineWidth}, // Top line
+    {x0, y1, rect.w + twoWidth, lineWidth}, // Bottom line
+    {x0, y0, lineWidth, rect.h + twoWidth}, // Left line
+    {x1, y0, lineWidth, rect.h + twoWidth}, // Right line
   };
 
   return SDL_RenderFillRects(rend, lines, 4);

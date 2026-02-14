@@ -1,8 +1,8 @@
 #include "Root.hpp"
 #include <SDL3/SDL_render.h>
 #include <SDL3_ttf/SDL_ttf.h>
-#include "Window.hpp"
 #include "Dctx.hpp"
+#include "Window.hpp"
 
 namespace katze {
 Root::Root(Renderer renderer, Theme theme)
@@ -23,10 +23,10 @@ void Root::setFont(Font font) {
   if (scale > 0.0f) {
     font.setSize(font.size() * scale);
   }
-  mFont = font;
+  theme.sizes.font = font;
 }
 
-void Root::setFontUnscaled(Font font) { mFont = font; }
+void Root::setFontUnscaled(Font font) { theme.sizes.font = font; }
 
 void Root::layout() {
   std::optional<IVec2> size = mRenderer.window().size();
@@ -38,7 +38,9 @@ void Root::layout() {
 void Root::layout(float width, float height) {
   if (!child) return;
 
-  const Gctx g{mTextEngine, mFont, width, height, mRenderer.window().displayScale()};
+  const Gctx g{
+    mTextEngine, theme.sizes, width, height, mRenderer.window().displayScale()
+  };
   child->resize(g, childRect);
 
   // Once the child's resized, we can know how to align it.

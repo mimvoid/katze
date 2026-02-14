@@ -5,8 +5,16 @@
 
 namespace katze {
 void Rectangle::resize(Gctx g, FRect &rect) {
-  rect.w = g.clampWidth(maxSize.x);
-  rect.h = g.clampHeight(maxSize.y);
+  float w = maxSize.x;
+  float h = maxSize.y;
+
+  if (bordered) {
+    w += 2 * g.sizes.border;
+    h += 2 * g.sizes.border;
+  }
+
+  rect.w = g.clampWidth(w);
+  rect.h = g.clampHeight(h);
 }
 
 void Rectangle::view(Dctx &d, FRect rect) {
@@ -23,7 +31,7 @@ void Rectangle::view(Dctx &d, FRect rect) {
 
   if (bordered) {
     rend.setDrawColor(colors.border);
-    rend.drawRect(drawRect, d.root.theme.borderWidth * d.scale);
+    rend.drawRect(drawRect, d.root.theme.sizes.border * d.scale);
   }
 }
 } // namespace katze

@@ -6,7 +6,7 @@
 namespace katze {
 Label::~Label() { TTF_DestroyText(textPtr); }
 
-void Label::resize(Gctx g, FRect &rect) { resizeForFont(g.font, g, rect); }
+void Label::resize(Gctx g, FRect &rect) { resizeForFont(g.sizes.font, g, rect); }
 void Label::view(Dctx &d, FRect rect) { viewForFont(d.root.font(), d, rect); }
 
 void Label::resizeForFont(Font font, const Gctx &g, FRect &rect) {

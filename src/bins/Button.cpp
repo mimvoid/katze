@@ -14,17 +14,19 @@ void Clickable::view(Dctx &d, FRect rect) {
 }
 
 void Button::resize(Gctx g, FRect &rect) {
+  const float offset = padding + g.sizes.border;
+
   if (child) {
     Gctx gCopy = g;
-    gCopy.shrink(FEdges(padding));
+    gCopy.shrink(FEdges(offset));
     child->resize(gCopy, childRect);
   } else {
     childRect.w = 0;
     childRect.h = 0;
   }
 
-  rect.w = g.clampWidth(childRect.w + (padding * 2));
-  rect.h = g.clampHeight(childRect.h + (padding * 2));
+  rect.w = g.clampWidth(childRect.w + (2.0f * offset));
+  rect.h = g.clampHeight(childRect.h + (2.0f * offset));
 }
 
 void Button::repositionChildren(FRect rect) {
@@ -45,9 +47,9 @@ void Button::view(Dctx &d, FRect rect) {
   rend.setDrawColor(colors.base);
   rend.drawRectFill(drawRect);
 
-  if (d.root.theme.borderWidth != 0) {
+  if (d.root.theme.sizes.border != 0) {
     rend.setDrawColor(colors.border);
-    rend.drawRect(drawRect, d.root.theme.borderWidth * d.scale);
+    rend.drawRect(drawRect, d.root.theme.sizes.border * d.scale);
   }
 
   if (child) {

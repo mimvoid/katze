@@ -4,7 +4,7 @@
 
 namespace katze {
 void Icon::resize(Gctx g, FRect &rect) {
-  const float iconSize = m_scale * KATZE_ICON_SIZE;
+  const float iconSize = m_scale * g.sizes.iconScale * KATZE_ICON_SIZE;
   rect.w = g.clampWidth(iconSize);
   rect.h = g.clampHeight(iconSize);
 }
@@ -16,7 +16,7 @@ void Icon::view(Dctx &d, FRect rect) {
     bits,
     rect.x * d.scale,
     rect.y * d.scale,
-    m_scale * d.root.theme.iconSize * d.scale
+    m_scale * d.root.theme.sizes.iconScale * d.scale
   );
 }
 } // namespace katze

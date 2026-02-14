@@ -36,7 +36,7 @@ struct Root {
   constexpr SDL_Renderer *sdlRenderer() const { return mRenderer.data; }
   constexpr TTF_TextEngine *textEngine() const { return mTextEngine; }
 
-  constexpr Font font() const { return mFont; }
+  constexpr Font font() const { return theme.sizes.font; }
 
   /**
    * Set the default font and scale its size according to the renderer window's display scale.
@@ -66,7 +66,6 @@ struct Root {
 private:
   Renderer mRenderer;
   TTF_TextEngine *mTextEngine{nullptr};
-  Font mFont{};
 };
 } // namespace katze
 

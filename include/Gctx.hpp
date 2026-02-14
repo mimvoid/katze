@@ -1,7 +1,7 @@
 #ifndef KATZE_GCTX_HPP
 #define KATZE_GCTX_HPP
 
-#include "Font.hpp"
+#include "Theme.hpp"
 #include "core/Axis.hpp"
 #include "core/Edges.hpp"
 
@@ -13,9 +13,7 @@ namespace katze {
  */
 struct Gctx {
   TTF_TextEngine *textEngine{nullptr};
-
-  // Default font for a label, which should be resized by the display scale.
-  Font font{};
+  ThemeSizes sizes{};
 
   float w{0.0f};     // Width to restrict the widget to.
   float h{0.0f};     // Height to restrict the widget to.

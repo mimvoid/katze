@@ -5,7 +5,7 @@
 
 namespace katze {
 void Checkbox::resize(Gctx g, FRect &rect) {
-  const float checkSize = g.font.size();
+  const float checkSize = g.sizes.font.size() + (2 * g.sizes.border);
   rect.w = g.clampWidth(checkSize);
   rect.h = g.clampHeight(checkSize);
 }
@@ -23,7 +23,7 @@ void Checkbox::view(Dctx &d, FRect rect) {
   rend.setDrawColor(colors.base);
   rend.drawRectFill(drawRect);
 
-  const float borderWidth = d.root.theme.borderWidth * d.scale;
+  const float borderWidth = d.root.theme.sizes.border * d.scale;
   if (borderWidth != 0) {
     rend.setDrawColor(colors.border);
     rend.drawRect(drawRect, borderWidth);

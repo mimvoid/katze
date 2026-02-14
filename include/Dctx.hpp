@@ -33,7 +33,7 @@ struct Dctx {
   Cursor cursor{Cursor::DEFAULT};
 
   constexpr const StateColors &colors() const {
-    return root.theme.stateColors(state);
+    return root.theme.colors.forState(state);
   }
 
   SDL_FRect scaledRect(FRect rect) const;
