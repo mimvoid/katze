@@ -1,11 +1,11 @@
-#ifndef KATZE_CTX_DCTX_HPP
-#define KATZE_CTX_DCTX_HPP
+#ifndef KATZE_DCTX_HPP
+#define KATZE_DCTX_HPP
 
 #include <vector>
-#include "../Root.hpp"
-#include "../core/State.hpp"
-#include "../input/Cursor.hpp"
-#include "../input/mouse.hpp"
+#include "Root.hpp"
+#include "core/State.hpp"
+#include "input/Cursor.hpp"
+#include "input/mouse.hpp"
 
 struct SDL_Renderer;
 struct SDL_FRect;

@@ -1,5 +1,5 @@
 #include "bins/Box.hpp"
-#include "ctx/Dctx.hpp"
+#include "Dctx.hpp"
 
 namespace katze {
 void Box::view(Dctx &d, [[maybe_unused]] FRect rect) {

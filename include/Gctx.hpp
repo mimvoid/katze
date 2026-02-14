@@ -1,9 +1,9 @@
-#ifndef KATZE_CTX_GCTX_HPP
-#define KATZE_CTX_GCTX_HPP
+#ifndef KATZE_GCTX_HPP
+#define KATZE_GCTX_HPP
 
-#include "../Font.hpp"
-#include "../core/Axis.hpp"
-#include "../core/Edges.hpp"
+#include "Font.hpp"
+#include "core/Axis.hpp"
+#include "core/Edges.hpp"
 
 struct TTF_TextEngine;
 

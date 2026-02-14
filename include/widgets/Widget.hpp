@@ -3,7 +3,7 @@
 
 #include "../core/Rect.hpp"
 #include "../core/Vec2.hpp"
-#include "../ctx/Gctx.hpp"
+#include "../Gctx.hpp"
 
 namespace katze {
 struct Dctx;

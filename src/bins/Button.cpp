@@ -1,7 +1,7 @@
 #include "bins/Button.hpp"
 #include <SDL3/SDL_rect.h>
 #include <SDL3/SDL_render.h>
-#include "ctx/Dctx.hpp"
+#include "Dctx.hpp"
 
 namespace katze {
 void Clickable::view(Dctx &d, FRect rect) {

@@ -1,7 +1,7 @@
 #include "widgets/Checkbox.hpp"
 #include <SDL3/SDL_log.h>
 #include <SDL3/SDL_render.h>
-#include "ctx/Dctx.hpp"
+#include "Dctx.hpp"
 
 namespace katze {
 void Checkbox::resize(Gctx g, FRect &rect) {

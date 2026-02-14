@@ -2,7 +2,7 @@
 #include <SDL3/SDL_render.h>
 #include <SDL3_ttf/SDL_ttf.h>
 #include "Window.hpp"
-#include "ctx/Dctx.hpp"
+#include "Dctx.hpp"
 
 namespace katze {
 Root::Root(Renderer renderer, Theme theme)
