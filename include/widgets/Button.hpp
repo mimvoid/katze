@@ -1,8 +1,8 @@
-#ifndef KATZE_BINS_CLICKABLE_HPP
-#define KATZE_BINS_CLICKABLE_HPP
+#ifndef KATZE_WIDGETS_CLICKABLE_HPP
+#define KATZE_WIDGETS_CLICKABLE_HPP
 
-#include "../Reactive.hpp"
 #include "Capsule.hpp"
+#include "Reactive.hpp"
 
 namespace katze {
 struct Clickable : Capsule, Reactive {
@@ -52,4 +52,4 @@ struct Button : Clickable {
 };
 } // namespace katze
 
-#endif // !KATZE_BINS_CLICKABLE_HPP
+#endif // !KATZE_WIDGETS_CLICKABLE_HPP

@@ -1,12 +1,12 @@
-#ifndef KATZE_BINS_ICONLABEL_HPP
-#define KATZE_BINS_ICONLABEL_HPP
+#ifndef KATZE_WIDGETS_ICONLABEL_HPP
+#define KATZE_WIDGETS_ICONLABEL_HPP
 
-#include "../widgets/Icon.hpp"
-#include "../widgets/Label.hpp"
-#include "Bin.hpp"
+#include "Icon.hpp"
+#include "Label.hpp"
+#include "Widget.hpp"
 
 namespace katze {
-struct IconLabel : Bin {
+struct IconLabel : Widget {
   Label label{};
   Icon icon{};
 
@@ -31,4 +31,4 @@ struct IconLabel : Bin {
 };
 } // namespace katze
 
-#endif // !KATZE_BINS_ICONLABEL_HPP
+#endif // !KATZE_WIDGETS_ICONLABEL_HPP

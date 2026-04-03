@@ -1,5 +1,5 @@
-#ifndef KATZE_REACTIVE_HPP
-#define KATZE_REACTIVE_HPP
+#ifndef KATZE_WIDGETS_REACTIVE_HPP
+#define KATZE_WIDGETS_REACTIVE_HPP
 
 #include "core/Rect.hpp"
 
@@ -31,4 +31,4 @@ private:
 };
 } // namespace katze
 
-#endif // !KATZE_REACTIVE_HPP
+#endif // !KATZE_WIDGETS_REACTIVE_HPP

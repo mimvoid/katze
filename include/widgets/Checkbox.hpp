@@ -1,7 +1,7 @@
 #ifndef KATZE_WIDGETS_CHECKBOX_HPP
 #define KATZE_WIDGETS_CHECKBOX_HPP
 
-#include "../Reactive.hpp"
+#include "Reactive.hpp"
 #include "Widget.hpp"
 
 namespace katze {

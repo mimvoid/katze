@@ -1,4 +1,4 @@
-#include "bins/IconLabel.hpp"
+#include "widgets/IconLabel.hpp"
 #include "core/Align.hpp"
 
 namespace katze {

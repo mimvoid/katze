@@ -1,5 +1,4 @@
 #include "widgets/Widget.hpp"
-#include "bins/Bin.hpp"
 
 namespace katze {
 void Widget::resize(Gctx g, FRect &rect) {
@@ -10,9 +9,9 @@ void Widget::resize(Gctx g, FRect &rect) {
 void Widget::reposition(FVec2 position, FRect &rect) {
   rect.x = position.x;
   rect.y = position.y;
-
-  if (Bin *bin = dynamic_cast<Bin *>(this); bin != nullptr) {
-    bin->repositionChildren(rect);
-  }
+  repositionChildren(rect);
 }
+
+void Widget::repositionChildren([[maybe_unused]] FRect rect) {}
+void Widget::view([[maybe_unused]] Dctx &d, [[maybe_unused]] FRect rect) {}
 }

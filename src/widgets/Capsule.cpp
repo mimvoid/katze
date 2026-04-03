@@ -1,4 +1,4 @@
-#include "bins/Capsule.hpp"
+#include "widgets/Capsule.hpp"
 
 namespace katze {
 void Capsule::resize(Gctx g, FRect &rect) {

@@ -1,4 +1,4 @@
-#include "bins/Padding.hpp"
+#include "widgets/Padding.hpp"
 
 namespace katze {
 void Padding::resize(Gctx g, FRect &rect) {

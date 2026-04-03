@@ -1,14 +1,15 @@
-#ifndef KATZE_BINS_CAPSULE_HPP
-#define KATZE_BINS_CAPSULE_HPP
+#ifndef KATZE_WIDGETS_CAPSULE_HPP
+#define KATZE_WIDGETS_CAPSULE_HPP
 
+#include <memory>
 #include <utility>
-#include "Bin.hpp"
+#include "Widget.hpp"
 
 namespace katze {
 /**
  * Bin that contains a single child widget.
  */
-struct Capsule : Bin {
+struct Capsule : Widget {
   std::shared_ptr<Widget> child{};
   FRect childRect{};
 
@@ -26,4 +27,4 @@ struct Capsule : Bin {
 };
 } // namespace katze
 
-#endif // !KATZE_BINS_CAPSULE_HPP
+#endif // !KATZE_WIDGETS_CAPSULE_HPP

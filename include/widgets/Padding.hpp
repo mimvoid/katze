@@ -1,5 +1,5 @@
-#ifndef KATZE_BINS_PADDING_HPP
-#define KATZE_BINS_PADDING_HPP
+#ifndef KATZE_WIDGETS_PADDING_HPP
+#define KATZE_WIDGETS_PADDING_HPP
 
 #include "../core/Edges.hpp"
 #include "Capsule.hpp"
@@ -28,4 +28,4 @@ struct Padding : Capsule {
 };
 } // namespace katze
 
-#endif // !KATZE_BINS_PADDING_HPP
+#endif // !KATZE_WIDGETS_PADDING_HPP

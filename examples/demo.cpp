@@ -5,7 +5,6 @@
 #include "Root.hpp"
 #include "Window.hpp"
 #include "app.hpp"
-#include "bins.hpp"
 #include "icons/katz.hpp"
 #include "widgets.hpp"
 

@@ -1,4 +1,4 @@
-#include "bins/Box.hpp"
+#include "widgets/Box.hpp"
 #include "Dctx.hpp"
 
 namespace katze {

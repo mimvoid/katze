@@ -3,10 +3,10 @@
 
 #include <memory>
 #include <vector>
-#include "Reactive.hpp"
 #include "Renderer.hpp"
 #include "Theme.hpp"
 #include "core/Align.hpp"
+#include "widgets/Reactive.hpp"
 #include "widgets/Widget.hpp"
 
 struct TTF_TextEngine;
@@ -39,7 +39,8 @@ struct Root {
   constexpr Font font() const { return theme.sizes.font; }
 
   /**
-   * Set the default font and scale its size according to the renderer window's display scale.
+   * Set the default font and scale its size according to the renderer window's
+   * display scale.
    */
   void setFont(Font font);
 

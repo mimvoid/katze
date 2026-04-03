@@ -1,12 +1,13 @@
-#ifndef KATZE_BINS_BOX_HPP
-#define KATZE_BINS_BOX_HPP
+#ifndef KATZE_WIDGETS_BOX_HPP
+#define KATZE_WIDGETS_BOX_HPP
 
+#include <memory>
 #include <vector>
 #include "../core/Align.hpp"
-#include "Bin.hpp"
+#include "Widget.hpp"
 
 namespace katze {
-struct Box : Bin {
+struct Box : Widget {
   using value_type = std::shared_ptr<Widget>;
 
   int spacing{0};
@@ -66,4 +67,4 @@ protected:
 };
 } // namespace katze
 
-#endif // !KATZE_BINS_BOX_HPP
+#endif // !KATZE_WIDGETS_BOX_HPP

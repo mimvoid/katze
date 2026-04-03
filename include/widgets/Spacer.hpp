@@ -14,7 +14,6 @@ struct Spacer : Widget {
   Spacer(FVec2 maxSize) : maxSize(maxSize) {}
 
   void resize(Gctx g, FRect &rect) override;
-  void view([[maybe_unused]] Dctx &d, [[maybe_unused]] FRect rect) override {}
 };
 } // namespace katze
 

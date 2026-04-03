@@ -1,7 +1,7 @@
 #ifndef KATZE_WIDGETS_SLIDER_HPP
 #define KATZE_WIDGETS_SLIDER_HPP
 
-#include "../Reactive.hpp"
+#include "Reactive.hpp"
 #include "Widget.hpp"
 
 namespace katze {
