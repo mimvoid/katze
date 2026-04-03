@@ -6,10 +6,13 @@ project(
   default_options: ['warning_level=3', 'cpp_std=c++17', 'default_library=static']
 )
 
-dependencies = [
+pkgconfig_deps = [
   dependency('sdl3'),
   dependency('sdl3-ttf'),
   dependency('fontconfig'),
+]
+dependencies = pkgconfig_deps + [
+  dependency('doctest')
 ]
 
 include_dir = include_directories('include')
@@ -24,6 +27,7 @@ libkatze = library(
   dependencies: dependencies,
   include_directories: include_dir,
   install: true,
+  cpp_args: ['-DDOCTEST_CONFIG_DISABLE'],
 )
 
 katze_dep = declare_dependency(
@@ -37,11 +41,15 @@ if get_option('examples')
   subdir('examples')
 endif
 
+if get_option('tests')
+  subdir('tests')
+endif
+
 import('pkgconfig').generate(
   libkatze,
   name: meson.project_name(),
   filebase: meson.project_name(),
   description: 'Dynamic retained GUI library written in C++17',
   version: meson.project_version(),
-  requires: dependencies,
+  requires: pkgconfig_deps,
 )

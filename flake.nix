@@ -40,6 +40,7 @@
           nativeBuildInputs = [
             pkgs.pkg-config
             pkgs.clang
+            pkgs.cmakeMinimal
           ];
 
           packages = with pkgs; [

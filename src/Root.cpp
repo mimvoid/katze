@@ -3,6 +3,7 @@
 #include <SDL3_ttf/SDL_ttf.h>
 #include "Dctx.hpp"
 #include "Window.hpp"
+#include <doctest/doctest.h>
 
 namespace katze {
 Root::Root(Renderer renderer, Theme theme)
