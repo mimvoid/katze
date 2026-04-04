@@ -29,7 +29,6 @@ int main(void) {
   rend.backgroundColor = {255, 245, 225};
 
   const uint32_t winId = win.id();
-  IconBits catHead{iconBitsById(KatzIcon::CAT_HEAD, katzFill)};
 
   // Load fonts
   Font tamzen = loadTamzen7x14Font();
@@ -55,7 +54,7 @@ int main(void) {
         4,
         Axis::X,
         {Align::CENTER},
-        Icon{catHead, 2},
+        Icon{katzFill[KatzIcon::CAT_HEAD], 2},
         LabelEx{title, "katze Widget Factory"},
       },
       Label{
